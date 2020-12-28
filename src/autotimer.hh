@@ -16,6 +16,7 @@
 #include <vector>
 #include <tuple>
 #include <numeric>
+#include <iomanip>
 
 using Function = std::function< void() >;
 
@@ -140,6 +141,11 @@ struct ReportEntry
     {
     }
 
+    const std::string& label() const
+    {
+        return std::get< 0 >( s );
+    }
+
     double speedUpFrom( const ReportEntry& other ) const
     {
         using namespace std;
@@ -149,7 +155,10 @@ struct ReportEntry
         return ( double )a / ( double )b;
     }
 
-    std::ostream& formatted( size_t idx, std::ostream& os, AutoTimer::FormatOptions opt ) const
+    std::ostream& formatted( size_t idx,
+                             std::ostream& os,
+                             AutoTimer::FormatOptions opt,
+                             size_t labelLength ) const
     {
         using namespace std;
         using namespace chrono;
@@ -166,19 +175,23 @@ struct ReportEntry
             sc = durationCast< milliseconds >( s );
             unit = " milli ";
         }
-
         if ( std::get< 0 >( sc ).empty() )
         {
             os << "measure " << idx << ": ";
         }
         else
         {
+            os << std::setfill( ' ' );
+            os << std::left << std::setw( labelLength );
             os << std::get< 0 >( sc ) << ": ";
         }
 
+        os << std::setfill( ' ' );
+        os << std::right << std::setw( 9 );
         os << std::get< 2 >( sc )
            << unit
            // (num runs, fastest, slowest)
+
            << "(" << std::get< 1 >( sc ) << " runs, fastest: " << std::get< 3 >( sc )
            << ", slowest: " << std::get< 4 >( sc ) << ')';
         return os;
@@ -245,13 +258,23 @@ struct Report
     std::string label{};
     std::vector< impl::ReportEntry > rs{};
 
-    std::ostream& formatted( std::ostream& os, AutoTimer::FormatOptions opt )
+    std::ostream& formatted( std::ostream& os,
+                             AutoTimer::FormatOptions opt,
+                             const std::string& entryIndent )
     {
         os << label << '\n';
         size_t idx{ 0 };
+        //     oss << setfill('_');
+        //    oss << left << setw(16) << "doom" << endl;
+        //    oss << right << setw(16) << "doom" << endl;
+        size_t labelLength{ 0 };
+        std::for_each( rs.cbegin(), rs.cend(), [ &labelLength ]( const impl::ReportEntry& r ) {
+            labelLength = std::max( labelLength, r.label().length() );
+        } );
+
         for ( const auto& r : rs )
         {
-            r.formatted( idx + 1, os << "    ", opt );
+            r.formatted( idx + 1, os << entryIndent, opt, ( labelLength > 0 ) ? labelLength : 12 );
             if ( idx > 0 )
             {
                 os << " speedup: " << r.speedUpFrom( rs[ 0 ] );
@@ -324,7 +347,7 @@ public:
                 auto d = m.measure();
                 report.rs.emplace_back( d );
             }
-            report.formatted( os ? *os : std::cout, FormatOptions{} );
+            report.formatted( os ? *os : std::cout, FormatOptions{}, "    " );
             fulfilled = true;
         }
     }
@@ -343,15 +366,17 @@ public:
                 report.rs.cbegin(), report.rs.cend(), [ &base ]( const impl::ReportEntry& r ) {
                     return std::get< 2 >( r.s ) > std::get< 2 >( base.s );
                 } );
-
+            std::string indent{ "    " };
             if ( slowdown == 0 )
             {
-                report.formatted( std::cout, FormatOptions{} ) << "assertFaster: passed\n";
+                report.formatted( std::cout, FormatOptions{}, indent )
+                    << indent << "assertFaster: passed\n";
                 fulfilled = true;
             }
             else
             {
-                report.formatted( std::cerr, FormatOptions{} ) << "assertFaster: failed\n";
+                report.formatted( std::cerr, FormatOptions{}, indent )
+                    << indent << "assertFaster: failed\n";
                 exit( 1 );
             }
         }

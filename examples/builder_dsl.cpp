@@ -66,7 +66,7 @@ void test_algorithm_is_faster_specify_labels()
         } )
         .measure(
             //
-            "use for-loop      ",
+            "use for-loop",
             [ &xs ]() {
                 std::vector< std::string > found;
                 for ( auto x : xs )

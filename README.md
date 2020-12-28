@@ -86,7 +86,7 @@ file from github and unzip it in your own project), then add this statement in y
 
 ## Misc
 
-Pull requests are always welcomed!
+Happy to take change suggestions and/or pull requests.
 
 You may also look into other projects:
 
@@ -94,7 +94,7 @@ cpptime: <https://github.com/eglimi/cpptime>
 
 boost timer library: <https://www.boost.org/doc/libs/1_53_0/libs/timer/doc/index.html>
 
-or take look at these pro-profilers:
+or take a look at these pro-level profilers:
 
 orbit: <https://github.com/google/orbit>
 

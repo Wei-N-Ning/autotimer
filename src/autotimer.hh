@@ -33,7 +33,7 @@ struct FormatOptions
 };
 }  // namespace AutoTimer
 
-namespace impl
+namespace AutoTimerImpl
 {
 void nothing()
 {
@@ -198,7 +198,7 @@ struct ReportEntry
         return os;
     }
 };
-}  // namespace impl
+}  // namespace AutoTimerImpl
 
 namespace AutoTimer
 {
@@ -257,7 +257,7 @@ struct Timer
 struct Report
 {
     std::string label{};
-    std::vector< impl::ReportEntry > rs{};
+    std::vector< AutoTimerImpl::ReportEntry > rs{};
 
     std::ostream& formatted( std::ostream& os,
                              AutoTimer::FormatOptions opt,
@@ -269,7 +269,7 @@ struct Report
         //    oss << left << setw(16) << "doom" << endl;
         //    oss << right << setw(16) << "doom" << endl;
         size_t labelLength{ 0 };
-        std::for_each( rs.cbegin(), rs.cend(), [ &labelLength ]( const impl::ReportEntry& r ) {
+        std::for_each( rs.cbegin(), rs.cend(), [ &labelLength ]( const AutoTimerImpl::ReportEntry& r ) {
             labelLength = std::max( labelLength, r.label().length() );
         } );
 
@@ -311,7 +311,7 @@ public:
     template < typename Function, typename = std::void_t< decltype( std::declval< Function >() ) > >
     Builder& withInit( Function&& f )
     {
-        init = impl::Closure{ std::forward< Function >( f ) };
+        init = AutoTimerImpl::Closure{ std::forward< Function >( f ) };
         for ( auto& m : ms )
         {
             m.init = init;
@@ -364,7 +364,7 @@ public:
             }
             auto& base = report.rs[ 0 ];
             auto slowdown = std::count_if(
-                report.rs.cbegin(), report.rs.cend(), [ &base ]( const impl::ReportEntry& r ) {
+                report.rs.cbegin(), report.rs.cend(), [ &base ]( const AutoTimerImpl::ReportEntry& r ) {
                     return std::get< 2 >( r.s ) > std::get< 2 >( base.s );
                 } );
             std::string indent{ "    " };
@@ -389,12 +389,12 @@ public:
     };
 
 private:
-    std::vector< impl::Measurable > ms;
+    std::vector< AutoTimerImpl::Measurable > ms;
     Report report{};
     std::ostream* os{ nullptr };
     bool fulfilled{ false };
     size_t mult{ 1 };
-    impl::Closure init{};
+    AutoTimerImpl::Closure init{};
 };
 };      // namespace AutoTimer
 #endif  // AUTOTIMER_AUTOTIMER_HH

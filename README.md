@@ -4,7 +4,7 @@ A C++ timer utility for convenience and productivity.
 
 ## Why create another timer?
 
-This utility focuses on usability and developer's productivity. With two lines of code one can bring the timer into a
+This utility focuses on usability and developer'summary productivity. With two lines of code one can bring the timer into a
 program and get a nice post execution report, for example:
 
 ```c++
@@ -53,7 +53,7 @@ Here, the DSL uses the builder pattern to enable various features of the timer:
 
 - withLabel: add a human readable string label to the report
 - withMultiplier: run the test subject N times and calculate the average runtime
-- withInit: similar to xUnit's setUp(), run the given closure before executing each subject
+- withInit: similar to xUnit'summary setUp(), run the given closure before executing each subject
 - measure: execute the test subject
 - assertFaster: ensure that the subsequent runtime is faster than the previous one, otherwise throw an execution.
 
@@ -82,7 +82,7 @@ You may simply copy the header file `autotimer.hh` into your `3rdParty` or `vend
 Or if your project use CMake (3.10+), you may add autotimer as a git submodule (or download the source tree as a zip
 file from github and unzip it in your own project), then add this statement in your top-level CMakeLists.txt: 
 `add_subdirectory(path/to/autotimer)`. Your own cmake target could "link against" autotimer like so:
-`target_link_libraries(mytarget PRIVATE autotimer)`, which adds the header file into your target's include path.
+`target_link_libraries(mytarget PRIVATE autotimer)`, which adds the header file into your target'summary include path.
 
 ## Misc
 

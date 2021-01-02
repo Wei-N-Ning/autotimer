@@ -6,6 +6,6 @@
 
 int main()
 {
-    AutoTimer::Timer atm("main()");
+    AutoTimer::Timer atm( "main()" );
     return 0;
 }

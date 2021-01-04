@@ -108,7 +108,7 @@ public:
             for ( const auto& m : ms )
             {
                 auto r = AutoTimer::Scaling::scaleTu< Ts... >( m, scalingParameters );
-                render( std::cout, 0, timeUnitOption, r );
+                report.timeRecords.template emplace_back( r );
             }
         }
     }
@@ -148,7 +148,7 @@ public:
 private:
     std::vector< AutoTimer::Impl::Measurable< Ts... > > ms;
     Report< Ts... > report{};
-    TimeUnitOptions timeUnitOption{TimeUnitOptions::MicroSecond};
+    TimeUnitOptions timeUnitOption{ TimeUnitOptions::MicroSecond };
     std::ostream* os{ nullptr };
     bool fulfilled{ false };
     size_t mult{ 1 };

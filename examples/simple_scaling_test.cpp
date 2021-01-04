@@ -7,6 +7,7 @@
 void scale_with_one_parameter()
 {
     AutoTimer::Builder()
+        .withLabel("one param")
         .withScaling( AutoTimer::Scaling::makeLinear( "size of work", 1, 6 ) )
         .measure( "do work", []( int ) {} );
 }
@@ -14,6 +15,7 @@ void scale_with_one_parameter()
 void scale_with_two_parameters()
 {
     AutoTimer::Builder()
+        .withLabel("two params")
         .withScaling( AutoTimer::Scaling::makeLinear( "size of work", 1, 3 ),
                       AutoTimer::Scaling::makeDiscrete( "num workers", 4, 10 ) )
         .withInit( []( int, int ) {} )

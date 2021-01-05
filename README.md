@@ -107,6 +107,8 @@ cpptime: <https://github.com/eglimi/cpptime>
 
 boost timer library: <https://www.boost.org/doc/libs/1_53_0/libs/timer/doc/index.html>
 
+**Quick-bench** looks really interesting: <https://quick-bench.com>
+
 or take a look at these pro-level profilers:
 
 orbit: <https://github.com/google/orbit>

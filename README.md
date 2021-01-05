@@ -1,6 +1,6 @@
 # autotimer
 
-A light weight utility to record the function execution time plus other power features.
+A light weight header-only utility to record the function execution time plus other power features.
 
 ## Why use it?
 
@@ -108,6 +108,10 @@ cpptime: <https://github.com/eglimi/cpptime>
 boost timer library: <https://www.boost.org/doc/libs/1_53_0/libs/timer/doc/index.html>
 
 **Quick-bench** looks really interesting: <https://quick-bench.com>
+
+and I've been a fan of google's benchmark library: <https://github.com/google/benchmark>
+
+(however it's a bit too heavy, hence my motivation to write a header-only version)
 
 or take a look at these pro-level profilers:
 

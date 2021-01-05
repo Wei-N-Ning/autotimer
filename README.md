@@ -90,12 +90,12 @@ A C++17 compliant compiler. Tested on gcc-8, 9 and 10.
 
 ## How to integrate it into your own project
 
-You may simply copy the header file `autotimer.hh` into your `3rdParty` or `vendor` directory.
+You may simply copy this repo into your `3rdParty` or `vendor` directory and add `src` to your include path.
 
 Or if your project use CMake (3.10+), you may add autotimer as a git submodule (or download the source tree as a zip
 file from github and unzip it in your own project), then add this statement in your top-level CMakeLists.txt: 
-`add_subdirectory(path/to/autotimer/src)`. Your own cmake target could "link against" autotimer like so:
-`target_link_libraries(mytarget PRIVATE autotimer)`, which adds the header file into your target'summary include path.
+`add_subdirectory(path/to/autotimer/src)`. Set up the dependencies of your own cmake targets,
+`target_link_libraries(mytarget PRIVATE autotimer)`, this adds the header file into your targets' include path.
 
 ## Misc
 

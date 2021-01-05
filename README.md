@@ -57,14 +57,13 @@ void test_algorithm_is_faster() {
 }
 ```
 
-Here, the mini DSL creates a measuring suite for you that has the following
-features:
+Here, the mini DSL creates a measuring suite for you that has the following features:
 
 - withLabel: add a human readable string label to the report
 - withMultiplier: run the test subject N times and calculate the average runtime
-- withInit: similar to xUnit's setUp(), run the given closure before executing each subject
-- measure: execute the test subject
-- assertFaster: ensure that the subsequent runtime is faster than the previous one, otherwise throw an execution.
+- withInit: similar to xUnit's setUp(), tell the suite to run the given init routine before executing each test subject
+- measure: enqueue the test subject for later evaluation; you can call `measure()` multiple times in the same suite (just like you can have any number of test methods in an xUnit suite)
+- assertFaster: execute all the test subjects (and their init routines) and ensure that the subsequent runtime is faster than the previous one, otherwise throw an execution.
 
 Once compiled and executed it generates the following report:
 
@@ -75,6 +74,10 @@ compare algorithm with for-loop
     
     result: passed
 ```
+
+It's not compulsory to do assertion at the end of the measuring suite since sometimes we just want to compare the speed and runtime. In that case, simply omit the `assertFaster` step. The suite will execute all the test subjects (and their init routine) and generate the report once it calls its destructor (i.e. when it goes out of scope). Yep, you may call it lazy-evaluation.
+
+You should also take advantage of the init routine to do time-consuming set up works (it could take much more time than the actual test subjects!) and dedicate the test subjects to your core algorithms. If the init routine and the test subjects share state, it has to be explicitly captured as a reference in the lambda function like shown in the above list `[&xs]`.
 
 ## Examples:
 
